@@ -1,34 +1,72 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import ParallaxSection from "@/components/ParallaxSection";
+import NumberReveal from "@/components/NumberReveal";
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6 }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header/Hero Section */}
-      <header className="relative h-screen flex items-center justify-center bg-gray-900 text-white">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/hero-bg.jpg"
-            alt="Financial consulting background"
-            fill
-            className="object-cover opacity-50"
-            priority
-          />
-        </div>
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            SEE BEHIND THE NUMBERS
-          </h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-            Strategic Financial Leadership designed to drive clarity and control while accelerating growth for SMB companies.
-          </p>
+      <header className="relative h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 text-white overflow-hidden">
+        <ParallaxSection speed={0.3}>
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/hero-bg.jpg"
+              alt="Financial consulting background"
+              fill
+              className="object-cover opacity-30"
+              priority
+            />
+          </div>
+        </ParallaxSection>
+        <div className="relative z-10 w-full">
+          <NumberReveal />
         </div>
       </header>
 
       {/* Services Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
+      <section className="py-32 px-4 relative">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/assets/senseofnumbers.jpg"
+            alt="Financial numbers background"
+            fill
+            className="object-cover opacity-60"
+            priority
+            quality={100}
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-gray-50/10"></div>
+        <motion.div 
+          className="max-w-6xl mx-auto relative z-10"
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <motion.h2 
+            className="text-4xl font-bold text-center mb-16 text-gray-900"
+            variants={fadeInUp}
+          >
+            Our Services
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               'Cash Flow Forecasting',
@@ -38,66 +76,105 @@ export default function Home() {
               'Capital Raise Support',
               'Systems & Process Improvement'
             ].map((service) => (
-              <div key={service} className="p-6 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <h3 className="text-xl font-semibold mb-2">{service}</h3>
-              </div>
+              <motion.div
+                key={service}
+                variants={fadeInUp}
+                className="p-8 border border-gray-100 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 bg-white/95 backdrop-blur-sm"
+              >
+                <h3 className="text-xl font-semibold mb-2 text-gray-900">{service}</h3>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* About Section */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-48 h-48 relative rounded-full overflow-hidden">
+      <section className="py-32 px-4 bg-gradient-to-b from-white to-gray-50">
+        <motion.div 
+          className="max-w-4xl mx-auto"
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <motion.div 
+              className="w-64 h-64 relative rounded-full overflow-hidden shadow-2xl"
+              variants={fadeInUp}
+            >
               <Image
-                src="/profile.jpg"
+                src="/assets/james.png"
                 alt="James Sproule"
                 fill
                 className="object-cover"
               />
-            </div>
-            <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-6">About James</h2>
-              <p className="mb-4">
+            </motion.div>
+            <motion.div 
+              className="flex-1"
+              variants={fadeInUp}
+            >
+              <h2 className="text-4xl font-bold mb-8 text-gray-900">About James</h2>
+              <p className="mb-6 text-gray-700 leading-relaxed">
                 15-year FP&A and operations career across financial institutions and SMBs. Former Head of Finance at Stantt (Series A).
               </p>
-              <p className="mb-4">
+              <p className="mb-6 text-gray-700 leading-relaxed">
                 Managed large teams, $50M+ in client accounts, $18M facility builds. Extensive experience in real estate and strategic finance.
               </p>
-              <p className="mb-4">
+              <p className="mb-8 text-gray-700 leading-relaxed">
                 Problem-solver, learner, efficiency driver, and team-builder with expertise in FinTech, SaaS, Retail, B2B, Real Estate, and Nonprofit sectors.
               </p>
               <Link
-                href="https://linkedin.com/in/jamessproule"
+                href="https://www.linkedin.com/in/james-sproule-3113ab1a/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800"
+                className="inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold transition-colors"
               >
-                Connect on LinkedIn →
+                Connect on LinkedIn
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
               </Link>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Book a Call Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Transform Your Business?</h2>
-          <p className="text-xl mb-8">
+      <section className="py-32 px-4 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+        <ParallaxSection speed={0.2}>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 opacity-50"></div>
+        </ParallaxSection>
+        <motion.div 
+          className="max-w-4xl mx-auto text-center relative z-10"
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <motion.h2 
+            className="text-4xl font-bold mb-6 text-gray-900"
+            variants={fadeInUp}
+          >
+            Ready to Transform Your Business?
+          </motion.h2>
+          <motion.p 
+            className="text-xl mb-12 text-gray-700"
+            variants={fadeInUp}
+          >
             Request 15 minutes to discuss your situation
-          </p>
-          <a
+          </motion.p>
+          <motion.a
             href="https://calendly.com/jamessproule/15min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            variants={fadeInUp}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             Book a Call
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
       </section>
     </div>
   );
